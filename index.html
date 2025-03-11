@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo Uni2 Comerciamos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5f7fa;
+      color: #003087;
+      margin: 0;
+      padding: 20px;
+    }
+    header {
+      background: linear-gradient(135deg, #003087, #00b4d8);
+      color: #fff;
+      text-align: center;
+      padding: 40px 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .title-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+    .title-container img {
+      max-width: 100px;
+      height: auto;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      cursor: pointer;
+    }
+    .title {
+      font-size: 36px;
+      margin: 0;
+      font-weight: 600;
+    }
+    .slogan {
+      font-size: 18px;
+      margin: 10px 0;
+    }
+    .highlight {
+      font-size: 20px;
+      color: #ff4d4d;
+      font-weight: 600;
+    }
+    .whatsapp-header-btn, .share-catalog-btn {
+      background: #25D366;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 600;
+      margin: 10px 5px;
+      display: inline-block;
+    }
+    .info {
+      text-align: center;
+      padding: 20px;
+    }
+    .info p {
+      background: #fff;
+      padding: 12px;
+      margin: 10px auto;
+      width: 80%;
+      max-width: 500px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      font-size: 16px;
+    }
+    .products {
+      text-align: center;
+      padding: 20px;
+    }
+    .search-container {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    .search-container input {
+      width: 60%;
+      max-width: 300px;
+      padding: 10px;
+      border: 2px solid #003087;
+      border-radius: 20px;
+      font-size: 14px;
+      outline: none;
+    }
+    .search-container button {
+      background: #003087;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .add-btn {
+      background: #003087;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 20px;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      margin-bottom: 20px;
+      display: none;
+    }
+    .product-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .product {
+      background: #fff;
+      border: 2px solid #003087;
+      border-radius: 10px;
+      width: 280px;
+      margin: 15px;
+      padding: 15px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .product h3 {
+      color: #003087;
+      font-size: 22px;
+      margin: 0 0 10px;
+      cursor: pointer;
+    }
+    .product .main-image {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .thumbnails {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      margin-top: 10px;
+    }
+    .thumbnails img {
+      width: 70px;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 5px;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+    .thumbnails img.active {
+      border-color: #003087;
+    }
+    .product p {
+      font-size: 14px;
+      margin: 8px 0;
+      cursor: pointer;
+    }
+    .whatsapp-btn {
+      background: #25D366;
+      color: #fff;
+      padding: 8px 15px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-block;
+      margin: 5px;
+    }
+    .edit-btn, .delete-btn {
+      padding: 8px 15px;
+      margin: 5px;
+      border-radius: 15px;
+      color: #fff;
+      cursor: pointer;
+      display: none;
+    }
+    .edit-btn {
+      background: #f39c12;
+    }
+    .delete-btn {
+      background: #e74c3c;
+    }
+    .save-message {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #25D366;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 10px;
+      display: none;
+    }
+    .no-results {
+      font-size: 18px;
+      color: #e74c3c;
+      margin: 20px 0;
+      display: none;
+    }
+    .image-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .image-modal-content {
+      position: relative;
+      max-width: 90%;
+      max-height: 90%;
+    }
+    .image-modal img {
+      width: 100%;
+      height: auto;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+    .image-modal .prev, .image-modal .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.7);
+      color: #003087;
+      padding: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 20px;
+      user-select: none;
+    }
+    .image-modal .prev {
+      left: 10px;
+    }
+    .image-modal .next {
+      right: 10px;
+    }
+    .image-modal .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      color: #fff;
+      font-size: 30px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="title-container">
+      <img id="logo" src="https://via.placeholder.com/100" alt="Logo Uni2 Comerciamos">
+      <h1 class="title" id="title">Uni2 Comerciamos</h1>
+    </div>
+    <a href="https://wa.me/+573159912394?text=Hola,%20quiero%20más%20información%20sobre%20Uni2%20Comerciamos" class="whatsapp-header-btn" target="_blank">Escríbenos 📲</a>
+    <a href="https://wa.me/?text=¡Mira%20el%20catálogo%20de%20Uni2%20Comerciamos!%20https://tuusuario.github.io/catalogo-uni2/" class="share-catalog-btn" target="_blank">Compartir Catálogo 📲</a>
+    <p class="slogan" id="slogan">¡Unidos Somos Fuertes! 💪</p>
+    <p class="highlight" id="highlight">Con nosotros compras tranquilo</p>
+  </header>
+
+  <section class="info">
+    <p id="info1">🚚 Domicilios gratis pago contra entrega</p>
+    <p id="info2">🇨🇴 Envíos a todo el país</p>
+    <p id="info3">🙌 Por cada referido que compre ganas una comisión</p>
+    <p id="info4">💳 Aceptamos todos los medios de pago</p>
+    <p id="info5">🌟 Por cada compra donamos el 10% a obra social</p>
+  </section>
+
+  <section class="products">
+    <h2>Nuestros Productos</h2>
+    <div class="search-container">
+      <input type="text" id="search-input" placeholder="Buscar producto...">
+      <button id="search-btn">Buscar</button>
+    </div>
+    <button id="add-product-btn" class="add-btn">Agregar Producto +</button>
+    <p id="no-results" class="no-results">No se encontraron productos</p>
+    <div class="product-list" id="product-list">
+      <div class="product" data-id="1">
+        <h3 class="editable" data-field="title">Camiseta Unisex</h3>
+        <img class="main-image" src="https://i.imgur.com/8fX8Z5g.jpg" alt="Camiseta Unisex">
+        <div class="thumbnails">
+          <img class="thumbnail" src="https://i.imgur.com/8fX8Z5g.jpg" alt="Foto 1">
+          <img class="thumbnail" src="https://i.imgur.com/3K5mW9P.jpg" alt="Foto 2">
+          <img class="thumbnail" src="https://i.imgur.com/7yN2vXq.jpg" alt="Foto 3">
+        </div>
+        <p class="editable" data-field="desc">Descripción: Camiseta 100% algodón, cómoda y moderna.</p>
+        <p class="editable" data-field="price">Precio: $35.000 COP 💰</p>
+        <a href="https://wa.me/+573159912394?text=Hola,%20quiero%20info%20sobre%20la%20Camiseta%20Unisex" class="whatsapp-btn" target="_blank">Contactar 📲</a>
+        <button class="edit-btn">Editar</button>
+        <button class="delete-btn">Eliminar</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="save-message" class="save-message">¡Guardado con éxito!</div>
+  <input type="file" id="logo-upload" style="display: none;" accept="image/*">
+  <div id="image-modal" class="image-modal">
+    <div class="image-modal-content">
+      <span class="close">×</span>
+      <img id="modal-image" src="" alt="Imagen ampliada">
+      <span class="prev">❮</span>
+      <span class="next">❯</span>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const productList = document.getElementById('product-list');
+      const addProductBtn = document.getElementById('add-product-btn');
+      const logoImg = document.getElementById('logo');
+      const logoUpload = document.getElementById('logo-upload');
+      const saveMessage = document.getElementById('save-message');
+      const imageModal = document.getElementById('image-modal');
+      const modalImage = document.getElementById('modal-image');
+      const closeModal = imageModal.querySelector('.close');
+      const prevBtn = imageModal.querySelector('.prev');
+      const nextBtn = imageModal.querySelector('.next');
+      const searchInput = document.getElementById('search-input');
+      const searchBtn = document.getElementById('search-btn');
+      const noResults = document.getElementById('no-results');
+      let productId = 1;
+      let currentImages = [];
+      let currentIndex = 0;
+
+      // Verificación de administrador
+      const urlParams = new URLSearchParams(window.location.search);
+      const adminKey = urlParams.get('admin');
+      const secretAdminKey = 'AdminUni22025';
+      const isAdmin = adminKey === secretAdminKey;
+
+      // Mostrar botones solo para admin
+      if (isAdmin) {
+        addProductBtn.style.display = 'block';
+        document.querySelectorAll('.edit-btn').forEach(btn => btn.style.display = 'inline-block');
+        document.querySelectorAll('.delete-btn').forEach(btn => btn.style.display = 'inline-block');
+      }
+
+      // Función para mostrar mensaje de guardado
+      function showSaveMessage() {
+        saveMessage.style.display = 'block';
+        setTimeout(() => saveMessage.style.display = 'none', 2000);
+      }
+
+      // Editar elementos con un clic
+      function setupEditableElements() {
+        document.querySelectorAll('.editable').forEach(el => {
+          el.addEventListener('click', (e) => {
+            if (!isAdmin) return;
+            e.stopPropagation();
+            const field = el.dataset.field;
+            let newValue;
+            if (field === 'title') newValue = prompt('Nuevo título:', el.textContent);
+            else if (field === 'desc') newValue = prompt('Nueva descripción:', el.textContent);
+            else if (field === 'price') newValue = prompt('Nuevo precio:', el.textContent);
+            if (newValue && newValue.trim()) {
+              el.textContent = newValue;
+              showSaveMessage();
+            }
+          });
+        });
+
+        document.querySelectorAll('#title, #slogan, #highlight, #info1, #info2, #info3, #info4, #info5').forEach(el => {
+          el.addEventListener('click', () => {
+            if (!isAdmin) return;
+            const newValue = prompt(`Editar ${el.id}:`, el.textContent);
+            if (newValue && newValue.trim()) {
+              el.textContent = newValue;
+              showSaveMessage();
+            }
+          });
+        });
+      }
+      setupEditableElements();
+
+      // Cambiar logo con un clic
+      logoImg.addEventListener('click', () => {
+        if (!isAdmin) return;
+        logoUpload.click();
+      });
+      logoUpload.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            logoImg.src = event.target.result;
+            showSaveMessage();
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      // Agregar producto con un clic
+      addProductBtn.addEventListener('click', () => {
+        if (!isAdmin) return;
+        productId++;
+        const title = prompt('Título del producto:');
+        if (!title || !title.trim()) return;
+
+        const desc = prompt('Descripción del producto:') || 'Descripción: Sin descripción';
+        const price = prompt('Precio del producto (ej. $25.000 COP):') || 'Precio: $0 COP';
+        const image1 = prompt('URL de la imagen 1:') || 'https://via.placeholder.com/250';
+        const image2 = prompt('URL de la imagen 2 (opcional):') || 'https://via.placeholder.com/250';
+        const image3 = prompt('URL de la imagen 3 (opcional):') || 'https://via.placeholder.com/250';
+
+        const productDiv = document.createElement('div');
+        productDiv.className = 'product';
+        productDiv.dataset.id = productId;
+        productDiv.innerHTML = `
+          <h3 class="editable" data-field="title">${title}</h3>
+          <img class="main-image" src="${image1}" alt="${title}">
+          <div class="thumbnails">
+            <img class="thumbnail" src="${image1}" alt="Foto 1">
+            <img class="thumbnail" src="${image2}" alt="Foto 2">
+            <img class="thumbnail" src="${image3}" alt="Foto 3">
+          </div>
+          <p class="editable" data-field="desc">${desc}</p>
+          <p class="editable" data-field="price">${price}</p>
+          <a href="https://wa.me/+573159912394?text=Hola,%20quiero%20info%20sobre%20${title}" class="whatsapp-btn" target="_blank">Contactar 📲</a>
+          <button class="edit-btn">Editar</button>
+          <button class="delete-btn">Eliminar</button>
+        `;
+
+        if (isAdmin) {
+          productDiv.querySelector('.edit-btn').style.display = 'inline-block';
+          productDiv.querySelector('.delete-btn').style.display = 'inline-block';
+        }
+
+        productDiv.querySelector('.edit-btn').addEventListener('click', () => editProduct(productDiv));
+        productDiv.querySelector('.delete-btn').addEventListener('click', () => deleteProduct(productDiv));
+        setupImageEvents(productDiv);
+        setupEditableElements();
+
+        productList.appendChild(productDiv);
+        showSaveMessage();
+        filterProducts();
+      });
+
+      // Editar producto con un clic
+      function editProduct(product) {
+        if (!isAdmin) return;
+        const titleEl = product.querySelector('[data-field="title"]');
+        const descEl = product.querySelector('[data-field="desc"]');
+        const priceEl = product.querySelector('[data-field="price"]');
+        const imageEls = product.querySelectorAll('.thumbnail');
+
+        const newTitle = prompt('Nuevo título:', titleEl.textContent) || titleEl.textContent;
+        const newDesc = prompt('Nueva descripción:', descEl.textContent) || descEl.textContent;
+        const newPrice = prompt('Nuevo precio:', priceEl.textContent) || priceEl.textContent;
+        const newImage1 = prompt('Nueva URL de la imagen 1:', imageEls[0].src) || imageEls[0].src;
+        const newImage2 = prompt('Nueva URL de la imagen 2:', imageEls[1].src) || imageEls[1].src;
+        const newImage3 = prompt('Nueva URL de la imagen 3:', imageEls[2].src) || imageEls[2].src;
+
+        titleEl.textContent = newTitle;
+        descEl.textContent = newDesc;
+        priceEl.textContent = newPrice;
+        product.querySelector('.main-image').src = newImage1;
+        imageEls[0].src = newImage1;
+        imageEls[1].src = newImage2;
+        imageEls[2].src = newImage3;
+
+        const whatsappBtn = product.querySelector('.whatsapp-btn');
+        whatsappBtn.href = `https://wa.me/+573159912394?text=Hola,%20quiero%20info%20sobre%20${newTitle}`;
+        showSaveMessage();
+        filterProducts();
+      }
+
+      // Eliminar producto con un clic
+      function deleteProduct(product) {
+        if (!isAdmin) return;
+        product.remove();
+        showSaveMessage();
+        filterProducts();
+      }
+
+      // Configurar eventos de imágenes
+      function setupImageEvents(product) {
+        const mainImage = product.querySelector('.main-image');
+        const thumbnails = product.querySelectorAll('.thumbnail');
+        const images = Array.from(thumbnails).map(thumb => thumb.src);
+
+        mainImage.addEventListener('click', () => openImageModal(images, 0));
+        thumbnails.forEach((thumb, index) => {
+          thumb.addEventListener('click', () => {
+            mainImage.src = thumb.src;
+            thumbnails.forEach(t => t.classList.remove('active'));
+            thumb.classList.add('active');
+            openImageModal(images, index);
+          });
+        });
+
+        thumbnails[0].classList.add('active');
+      }
+
+      // Abrir modal de imagen
+      function openImageModal(images, startIndex) {
+        currentImages = images;
+        currentIndex = startIndex;
+        modalImage.src = currentImages[currentIndex];
+        imageModal.style.display = 'flex';
+      }
+
+      // Navegar entre imágenes
+      prevBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
+        modalImage.src = currentImages[currentIndex];
+      });
+
+      nextBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % currentImages.length;
+        modalImage.src = currentImages[currentIndex];
+      });
+
+      closeModal.addEventListener('click', () => {
+        imageModal.style.display = 'none';
+      });
+
+      imageModal.addEventListener('click', (e) => {
+        if (e.target === imageModal) imageModal.style.display = 'none';
+      });
+
+      // Filtrar productos
+      function filterProducts() {
+        const searchTerm = searchInput.value.trim().toLowerCase();
+        const products = productList.querySelectorAll('.product');
+        let visibleCount = 0;
+
+        products.forEach(product => {
+          const title = product.querySelector('[data-field="title"]').textContent.toLowerCase();
+          const desc = product.querySelector('[data-field="desc"]').textContent.toLowerCase();
+          const price = product.querySelector('[data-field="price"]').textContent.toLowerCase();
+          const matches = title.includes(searchTerm) || desc.includes(searchTerm) || price.includes(searchTerm);
+          product.style.display = matches ? 'block' : 'none';
+          if (matches) visibleCount++;
+        });
+
+        noResults.style.display = visibleCount === 0 && searchTerm.length > 0 ? 'block' : 'none';
+      }
+
+      // Eventos del buscador
+      searchInput.addEventListener('input', filterProducts);
+      searchBtn.addEventListener('click', filterProducts);
+      searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') filterProducts();
+      });
+
+      // Asignar eventos a productos iniciales
+      document.querySelectorAll('.product').forEach(product => {
+        product.querySelector('.edit-btn').addEventListener('click', () => editProduct(product));
+        product.querySelector('.delete-btn').addEventListener('click', () => deleteProduct(product));
+        setupImageEvents(product);
+      });
+    });
+  </script>
+</body>
+</html>
